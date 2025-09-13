@@ -48,25 +48,31 @@ cd fullcycle-desafio-clima-cep
 cp .env.example .env
 ```
 
-3. Edite o arquivo ```.env``` e adicione a sua chave da API.
+3. Obtenha uma chave válida da WeatherAPI
+    1. Acesse [weatherapi.com](https://www.weatherapi.com)
+    2. Crie uma conta gratuita
+    3. Obtenha sua chave API 
+
+
+4. Edite o arquivo ```.env``` e adicione a sua chave da API.
 ```
 WEATHERAPI_KEY=sua_chave_aqui
 PORT=8080
 ```
 
-4. Construa as imagens e suba o container:
+5. Construa as imagens e suba o container:
 ```
 docker-compose build
 docker-compose up -d
 ```
 
-5. Teste a aplicação
+6. Teste a aplicação
 Agora você pode testar a aplicação com:
 ```
 curl http://localhost:8080/weather/01001000
 ```
 
-6. Para parar a aplicação
+7. Para parar a aplicação
 ```
 docker-compose down
 ```
