@@ -23,7 +23,11 @@ func main() {
 
 	router := h.NewRouter(&h.Handler{Svc: svc})
 
-	addr := ":8080"
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	addr := ":" + port
 	log.Printf("listening on %s", addr)
 	log.Fatal(http.ListenAndServe(addr, router))
 }
