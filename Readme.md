@@ -1,5 +1,8 @@
 # fullcycle-desafio-clima-cep
 
+## OBS: TESTE VIA TERMINAL
+```curl https://fullcycle-desafio-clima-cep-211394052553.us-central1.run.app/weather/01001000```
+
 ## Desafio:
 **Objetivo:** Desenvolver um sistema em Go que receba um CEP, identifica a cidade e retorna o clima atual (temperatura em graus celsius, fahrenheit e kelvin). Esse sistema deverá ser publicado no Google Cloud Run.
 
@@ -37,6 +40,9 @@
 
 # Instruções:
 
+Local e via Cloud Run
+
+## Local
 1. Clonar o Repositório:
 ```
 git clone git@github.com:robertocorreajr/fullcycle-desafio-clima-cep.git
@@ -76,3 +82,23 @@ curl http://localhost:8080/weather/01001000
 ```
 docker-compose down
 ```
+
+## Cloud Run
+1. Ter instalada e configurada a extenção Google Cloud Code
+
+2. Acessar a extensão e selecionar Cloud Run
+![Screenshot da interface do Cloud Run no Visual Studio Code](./assets/images/cloud-run1.png)
+
+3. Configurar as variáveis de ambiente como segue...
+
+    Expamdir as configurações avançadas
+    ![Expandir as configurações avançadas](./assets/images/cloud-run2.png)
+
+    Configurar as variáveis de ambiente
+    ![Configurar as variáveis de ambiente](./assets/images/cloud-run3.png)
+
+4. Depois basta clicar em Deploy e aguardar.
+
+5. Teste
+    - Possivel testar via terminal:
+        ```curl https://fullcycle-desafio-clima-cep-211394052553.us-central1.run.app/weather/01001000```
