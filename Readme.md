@@ -34,3 +34,39 @@
 - Testes automatizados demonstrando o funcionamento.
 - Utilize docker/docker-compose para que possamos realizar os testes de sua aplicação.
 - Deploy realizado no Google Cloud Run (free tier) e endereço ativo para ser acessado.
+
+# Instruções:
+
+1. Clonar o Repositório:
+```
+git clone git@github.com:robertocorreajr/fullcycle-desafio-clima-cep.git
+cd fullcycle-desafio-clima-cep
+```
+
+2. Crie um arquivo ```.env``` com as variáveis de ambiente necessárias
+```
+cp .env.example .env
+```
+
+3. Edite o arquivo ```.env``` e adicione a sua chave da API.
+```
+WEATHERAPI_KEY=sua_chave_aqui
+PORT=8080
+```
+
+4. Construa as imagens e suba o container:
+```
+docker-compose build
+docker-compose up -d
+```
+
+5. Teste a aplicação
+Agora você pode testar a aplicação com:
+```
+curl http://localhost:8080/weather/01001000
+```
+
+6. Para parar a aplicação
+```
+docker-compose down
+```

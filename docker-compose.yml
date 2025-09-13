@@ -1,0 +1,11 @@
+services:
+  api:
+    build: .
+    image: fullcycle-desafio-clima-cep:local
+    container_name: fullcycle-desafio-clima-cep
+    environment:
+      - WEATHERAPI_KEY=${WEATHERAPI_KEY}
+      - PORT=8080
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
