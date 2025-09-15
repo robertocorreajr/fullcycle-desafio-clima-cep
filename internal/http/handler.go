@@ -39,10 +39,10 @@ func (h *Handler) getWeather(w stdhttp.ResponseWriter, r *stdhttp.Request) {
 		fmt.Printf("Erro ao processar CEP %s: %v\n", zip, err)
 
 		switch {
-		case errors.Is(err, service.ErrInvalidZip()):
+		case errors.Is(err, service.ErrInvalidZip):
 			httpJSON(w, stdhttp.StatusUnprocessableEntity, map[string]string{"message": "invalid zipcode"})
 			return
-		case errors.Is(err, service.ErrNotFound()):
+		case errors.Is(err, service.ErrNotFound):
 			httpJSON(w, stdhttp.StatusNotFound, map[string]string{"message": "can not find zipcode"})
 			return
 		default:

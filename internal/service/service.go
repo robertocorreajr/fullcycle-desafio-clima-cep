@@ -13,8 +13,8 @@ import (
 )
 
 var (
-	errInvalidZip = errors.New("invalid zipcode")
-	errNotFound   = errors.New("can not find zipcode")
+	ErrInvalidZip = errors.New("invalid zipcode")
+	ErrNotFound   = errors.New("can not find zipcode")
 	cepRe         = regexp.MustCompile(`^\d{8}$`)
 )
 
@@ -30,16 +30,21 @@ func New(cep viacep.Client, w weather.Client) *Service {
 func (s *Service) GetWeatherByCEP(ctx context.Context, cep string) (*types.WeatherResponse, error) {
 	// valida CEP (8 dígitos)
 	if !cepRe.MatchString(cep) {
-		return nil, errInvalidZip
+		return nil, ErrInvalidZip
 	}
 
 	// consulta ViaCEP
 	addr, err := s.CEP.Lookup(ctx, cep)
 	if err != nil {
+		if strings.Contains(err.Error(), "404") || strings.Contains(err.Error(), "400") {
+			return nil, ErrNotFound
+		}
 		return nil, fmt.Errorf("viacep: %w", err)
 	}
+
+	// Verifica se o endereço é válido
 	if addr == nil || addr.Erro || addr.Localidade == "" || addr.UF == "" {
-		return nil, errNotFound
+		return nil, ErrNotFound
 	}
 
 	// monta query para WeatherAPI
@@ -47,6 +52,10 @@ func (s *Service) GetWeatherByCEP(ctx context.Context, cep string) (*types.Weath
 
 	tempC, err := s.Weather.CurrentTempC(ctx, q)
 	if err != nil {
+		// Melhorara o tratamento de erros para localidades que não forem encontradas
+		if strings.Contains(err.Error(), "400") || strings.Contains(err.Error(), "404") {
+			return nil, ErrNotFound
+		}
 		return nil, fmt.Errorf("weatherapi: %w", err)
 	}
 
@@ -65,7 +74,3 @@ func (s *Service) GetWeatherByCEP(ctx context.Context, cep string) (*types.Weath
 func round1(v float64) float64 {
 	return float64(int(v*10+0.5)) / 10
 }
-
-// Erros públicos para o handler decidir status code
-func ErrInvalidZip() error { return errInvalidZip }
-func ErrNotFound() error   { return errNotFound }
