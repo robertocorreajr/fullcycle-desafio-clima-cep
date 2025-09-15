@@ -40,6 +40,10 @@ func (c *HTTPClient) Lookup(ctx context.Context, cep string) (*types.ViaCEPResul
 	}
 	defer res.Body.Close()
 
+	if res.StatusCode == 404 || res.StatusCode == 400 {
+		return &types.ViaCEPResult{Erro: true}, nil
+	}
+
 	if res.StatusCode >= 400 {
 		return nil, fmt.Errorf("viacep http error: %d", res.StatusCode)
 	}
